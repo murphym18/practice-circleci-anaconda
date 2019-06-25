@@ -7,16 +7,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:  # ensure this step occurs *before* installing dependencies
-          key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
+          key: deps9-{{ .Branch }}-{{ checksum ".circleci/environment.yml" }}
       - run:
           name: Install dependencies (if needed)
           command: |
             conda env list | grep anaconda-docker >/dev/null
             if [[ $? != 0 ]]; then
-                conda env create -f environment.yml
+                conda env create -f .circleci/environment.yml
             fi
       - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
+          key: deps9-{{ .Branch }}-{{ checksum ".circleci/environment.yml" }}
           paths:
             - "/opt/conda"
       - run: 
