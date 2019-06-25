@@ -4,11 +4,8 @@ jobs:
     working_directory: /app
     docker:
       - image: continuumio/miniconda3
-    environment:
-      TEST_RESULTS: /tmp/test-results
     steps:
       - checkout
-      - run: mkdir -p $TEST_RESULTS
       # - restore_cache:  # ensure this step occurs *before* installing dependencies
       #     key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
       - run:
