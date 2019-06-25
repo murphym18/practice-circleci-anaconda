@@ -9,15 +9,15 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $TEST_RESULTS
-      - restore_cache:  # ensure this step occurs *before* installing dependencies
-          key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
+      # - restore_cache:  # ensure this step occurs *before* installing dependencies
+      #     key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
       - run:
           name: Install dependencies
           command: conda env create -f environment.yml
-      - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
-          paths:
-            - "/opt/conda/envs/anaconda-docker"
+      # - save_cache:
+      #     key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
+      #     paths:
+      #       - "/opt/conda/envs/anaconda-docker"
       - run: 
           name: Run unit tests
           command: conda run -n anaconda-docker python -m unittest discover -v
