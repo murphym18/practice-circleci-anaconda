@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    working_directory: /app
+    docker:
+      - image: continuumio/miniconda3
+    steps:
+      - checkout
+      - restore_cache:  # ensure this step occurs *before* installing dependencies
+          key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
+      - run: conda env create -f environment.yml
+      - save_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "environment.yml" }}
+          paths:
+            - "/opt/conda/envs/anaconda-docker"
+      - run: conda run -n anaconda-docker python -m unittest discover -v
+
+    
